@@ -1,0 +1,13 @@
+History.txt
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+config/hoe.rb
+lib/msisdn.rb
+msisdn.gemspec
+script/console
+script/destroy
+script/generate
+test/test_helper.rb
+test/test_msisdn.rb
