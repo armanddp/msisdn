@@ -1,7 +1,7 @@
 $:.unshift(File.dirname(__FILE__)) unless
 $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 class Msisdn
   attr_accessor :original, :msisdn, :national_number, :dialing_code, :network, :country_code
