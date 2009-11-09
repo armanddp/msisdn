@@ -20,10 +20,6 @@ class Msisdn
     end
   end
 
-  def to_s
-    @formatted_number
-  end
-
   def international
     return nil if @country_code.nil?
     "#{@country_code}#{@network}#{@subscriber}"
