@@ -50,5 +50,25 @@ class MsisdnTest < Test::Unit::TestCase
     assert_equal '7', msisdn.country_code
     assert_equal '79261234567', msisdn.international
   end
+  
+  def test_valid_national_number
+    msisdn = Msisdn.new '0825559629'
+    assert msisdn.valid?
+  end
+  
+  def test_invalid_national_number
+    msisdn = Msisdn.new '082555'
+    assert false == msisdn.valid?
+  end
+  
+  def test_valid_international_number
+    msisdn = Msisdn.new('27825559629')
+    assert msisdn.valid?
+  end
+  
+  def test_invalid_international_number
+    msisdn = Msisdn.new('278259629')
+    assert false == msisdn.valid?
+  end
 
 end

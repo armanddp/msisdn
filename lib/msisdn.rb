@@ -26,6 +26,11 @@ class Msisdn
     return nil if @country_code.nil?
     "#{@country_code}#{@network}#{@subscriber}"
   end
+  
+  def valid?
+    return true if @network and @subscriber.length >= 7
+    false
+  end
 
   private
   def match_local(number)
