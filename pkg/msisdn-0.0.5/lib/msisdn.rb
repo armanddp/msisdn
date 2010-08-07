@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module MsisdnGem
-  VERSION = "0.0.4"
+  VERSION = "0.0.5"
 end
 
 class Msisdn
@@ -11,6 +11,14 @@ class Msisdn
   INTERNATIONAL_COUNTRY_CODE = /^\+(1|2[1-689]\d|2[07]|3[0-469]|3[578]\d|4[0-13-9]|42\d|5[09]\d|5[1-8]|6[0-6]|6[7-9]\d|7|8[035789]\d|8[1246]|9[0-58]|9[679]\d)(\d+)/
   INTERNATIONAL_COUNTRY_CODE_NO_PREFIX =   /(1|2[1-689]\d|2[07]|3[0-469]|3[578]\d|4[0-13-9]|42\d|5[09]\d|5[1-8]|6[0-6]|6[7-9]\d|7|8[035789]\d|8[1246]|9[0-58]|9[679]\d)(\d+)/
   EXACTLY_10_DIGITS = /^(\d{10})$/
+  
+  # Some countries with trunk code requirement for local dialling
+  # See http://en.wikipedia.org/wiki/Telephone_numbering_plan
+  # TODO: Special case until I need another country which don't
+  # use trunk code and/or 10 digit number plan
+  SPECIAL_CASES = {
+    "995" => [9, '0']
+  }
 
   def initialize(msisdn, default_country_code = nil)
     msisdn.gsub!( /[\s()\-a-zA-Z]/, '')
@@ -49,7 +57,8 @@ class Msisdn
     if @msisdn =~ INTERNATIONAL_COUNTRY_CODE
       @country_code, @national_number = $1, $2
       unless @national_number =~ /^0/
-        @national_number = @national_number.rjust(10, '0')
+        params = SPECIAL_CASES[@country_code] || [10, '0']
+        @national_number = @national_number.rjust(*params)
       end
       match_local @national_number
     else
@@ -61,7 +70,8 @@ class Msisdn
     if @msisdn =~ INTERNATIONAL_COUNTRY_CODE_NO_PREFIX
       @country_code, @national_number = $1, $2
       unless @national_number =~ /^0/
-        @national_number = @national_number.rjust(10, '0')
+        params = SPECIAL_CASES[@country_code] || [10, '0']
+        @national_number = @national_number.rjust(*params)
       end
       match_local @national_number
     end
