@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
 $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module MsisdnGem
-  VERSION = "0.0.5"
+  VERSION = "0.0.6"
 end
 
 class Msisdn
@@ -42,7 +42,14 @@ class Msisdn
 
   private
   def match_local(number)
-    if number =~ EXACTLY_10_DIGITS
+    # Temp fix to get number working
+    if(special_case = SPECIAL_CASES[@default_country_code])
+      local_number_match = eval("/^(\\d{#{special_case[0]}})$/")
+    else
+      local_number_match = EXACTLY_10_DIGITS
+    end
+    
+    if (number =~ local_number_match)
       @national_number = number
       @country_code ||= @default_country_code
       if @national_number =~ INTERNATIONAL_COUNTRY_CODE_NO_PREFIX # this also works for matching local numbers

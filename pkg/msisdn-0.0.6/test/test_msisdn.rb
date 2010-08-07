@@ -57,6 +57,12 @@ class MsisdnTest < Test::Unit::TestCase
     assert_equal '077100060', msisdn.national_number
   end
   
+  def test_georgian_national_number
+    msisdn = Msisdn.new('077100060', '995')
+    assert_equal '995', msisdn.country_code
+    assert_equal '077100060', msisdn.national_number
+  end
+  
   def test_valid_national_number
     msisdn = Msisdn.new '0825559629'
     assert msisdn.valid?
