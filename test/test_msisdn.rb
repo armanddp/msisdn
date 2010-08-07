@@ -25,8 +25,8 @@ class MsisdnTest < Test::Unit::TestCase
   end
   
   def test_three_digit_international_code
-    msisdn = Msisdn.new('+995825559629')
-    assert_equal '995', msisdn.country_code
+    msisdn = Msisdn.new('+994825559629')
+    assert_equal '994', msisdn.country_code
     assert_equal '0825559629', msisdn.national_number
   end
   
@@ -49,6 +49,12 @@ class MsisdnTest < Test::Unit::TestCase
     assert_equal '9261234567', msisdn.national_number
     assert_equal '7', msisdn.country_code
     assert_equal '79261234567', msisdn.international
+  end
+  
+  def test_georgian_international_number
+    msisdn = Msisdn.new('99577100060')
+    assert_equal '995', msisdn.country_code
+    assert_equal '077100060', msisdn.national_number
   end
   
   def test_valid_national_number
